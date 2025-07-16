@@ -104,54 +104,23 @@ _Cleans and standardizes the raw transaction data, handles missingness and anoma
 
 ## Complete Project Architecture
 
-Aave Transaction JSON
-        │
-        ▼
-        
+flowchart TD
+    A([Aave Transaction JSON])
+    B([Local Script:<br/>flatten_aave_json.py<br/><span style="font-size:12px">Flattens JSON to tabular CSV</span>])
+    C([Local Script:<br/>clean_and_engineer.py<br/><span style="font-size:12px">Cleans, engineers features by user</span>])
+    D([Colab:<br/>Data Audit & EDA<br/><span style="font-size:12px">Fixes, explores, drops bad/constant features</span>])
+    E([Colab:<br/>Heuristic Scoring & Segmentation<br/><span style="font-size:12px">Rule-based score, bands: Prime/Subprime/etc</span>])
+    F([Colab:<br/>ML Model Training<br/>XGBoost & LightGBM<br/><span style="font-size:12px">Trains/validates, picks best (XGBoost)</span>])
+    G([Colab:<br/>Prediction & Final Scoring<br/><span style="font-size:12px">Adds ML-predicted scores, interprets results</span>])
+    H([Output:<br/>user_features_with_xgboost_predicted_score.csv<br/>Visualizations & analysis])
 
-[Local Script] flatten_aave_json.py
-  – Flattens nested DeFi action data into tabular format
-        │
-        ▼
-        
-
-[Local Script] clean_and_engineer.py
-  – Cleans, standardizes, and aggregates transaction records
-  – Engineered features for each user: actions, volumes, ratios, diversity, tenure
-        │
-        ▼
-        
-
-[Colab Notebook] Data Audit & EDA
-  – Visual checks for missing data, outliers, feature redundancy
-  – Drops irrelevant or constant features     
-        │     
-        ▼
-        
-
-[Colab Notebook] Heuristic Scoring & Segmentation
-  – Applies robust scoring logic (see above)
-  – Bands users ("Prime", "Subprime", etc.)
-        │
-        ▼
-        
-
-[Colab Notebook] ML Model Training (XGBoost, LightGBM)
-  – Trains, validates, and compares model performance
-  – Selects best model (XGBoost)
-        │
-        ▼
-        
-
-[Colab Notebook] Prediction & Final Scoring
-  – Adds ML-predicted credit score and interprets results
-        │
-        ▼
-        
-
-[Output]
-  – user_features_with_xgboost_predicted_score.csv (all scores and features)
-  – Visualizations and detailed analysis for protocol, contest entry, or reporting
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+    G --> H
 
 
 ---
