@@ -103,24 +103,26 @@ _Cleans and standardizes the raw transaction data, handles missingness and anoma
 ---
 
 ## Complete Project Architecture
-``` mermaid
-flowchart TD
-    A([Aave Transaction JSON])
-    B([Local Script:<br/>flatten_aave_json.py<br/><span style="font-size:12px">Flattens JSON to tabular CSV</span>])
-    C([Local Script:<br/>clean_and_engineer.py<br/><span style="font-size:12px">Cleans, engineers features by user</span>])
-    D([Colab:<br/>Data Audit & EDA<br/><span style="font-size:12px">Fixes, explores, drops bad/constant features</span>])
-    E([Colab:<br/>Heuristic Scoring & Segmentation<br/><span style="font-size:12px">Rule-based score, bands: Prime/Subprime/etc</span>])
-    F([Colab:<br/>ML Model Training<br/>XGBoost & LightGBM<br/><span style="font-size:12px">Trains/validates, picks best (XGBoost)</span>])
-    G([Colab:<br/>Prediction & Final Scoring<br/><span style="font-size:12px">Adds ML-predicted scores, interprets results</span>])
-    H([Output:<br/>user_features_with_xgboost_predicted_score.csv<br/>Visualizations & analysis])
 
-    A --> B
-    B --> C
-    C --> D
-    D --> E
-    E --> F
-    F --> G
-    G --> H
+```mermaid
+flowchart TD
+A[Aave Transaction JSON]
+B[flatten_aave_json.py<br><i>Flattens nested DeFi action data</i>]
+C[clean_and_engineer.py<br><i>Cleans, engineers user features</i>]
+D[Colab: Data Audit & EDA<br><i>Visual checks, drops bad/constant features</i>]
+E[Colab: Heuristic Scoring & Segmentation<br><i>Rule-based score, bands users</i>]
+F[Colab: ML Model Training<br><i>XGBoost & LightGBM; compare and select best</i>]
+G[Colab: Prediction & Final Scoring<br><i>Adds ML-predicted score, interprets</i>]
+H[Output: user_features_with_xgboost_predicted_score.csv<br><i>All features, scores, analysis</i>]
+
+A --> B
+B --> C
+C --> D
+D --> E
+E --> F
+F --> G
+G --> H
+
 ```
 
 ---
