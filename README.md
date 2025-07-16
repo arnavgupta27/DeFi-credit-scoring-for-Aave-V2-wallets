@@ -103,7 +103,7 @@ _Cleans and standardizes the raw transaction data, handles missingness and anoma
 ---
 
 ## Complete Project Architecture
-
+``` mermaid
 flowchart TD
     A([Aave Transaction JSON])
     B([Local Script:<br/>flatten_aave_json.py<br/><span style="font-size:12px">Flattens JSON to tabular CSV</span>])
@@ -121,7 +121,7 @@ flowchart TD
     E --> F
     F --> G
     G --> H
-
+```
 
 ---
 
