@@ -16,11 +16,17 @@ All artifacts and documentation required by the challenge are included.
 
 .
 ├── flatten_aave_json.py # (local) JSON flattening to tabular CSV
+
 ├── clean_and_engineer.py # (local) Data cleaning and feature engineering
+
 ├── model_training_and_analysis.ipynb # (Colab) EDA, heuristics, ML, result visualization
+
 ├── user_features_newscored.csv # Engineered features and heuristic/model scores
+
 ├── README.md # This file
+
 ├── analysis.md # Post-scoring wallet analysis, plots, insights
+
 └── ...
 
 
