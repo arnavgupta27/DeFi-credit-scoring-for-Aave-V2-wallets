@@ -6,7 +6,8 @@ We leverage engineer features, real DeFi risk signals, and XGBoost ML scoring, w
 
 1. Score Distribution
 1.1. Score Histogram (0–1000, bins of 100)
-![Score Histogram by 100s](score_hist_by_100.png histogram visualizes how wallets are distributed across score intervals (0-100, 100-200, ..., 900-1000). Most users fall into the lower or baseline bands, with a long right tail. This reflects typical DeFi user behavior: most users are inactive or low-activity, while only a minority are long-lived, responsible borrowers.)
+<img width="1000" height="600" alt="score_hist_by_100" src="https://github.com/user-attachments/assets/1d00aae2-7ee8-4b86-b1e3-99e3326b2046" />
+(score_hist_by_100.png histogram visualizes how wallets are distributed across score intervals (0-100, 100-200, ..., 900-1000). Most users fall into the lower or baseline bands, with a long right tail. This reflects typical DeFi user behavior: most users are inactive or low-activity, while only a minority are long-lived, responsible borrowers.)
 
 1.2. Score Density (KDE Line over Histogram)
 ![Score Histogram with DensityInterpretation**: The kernel density curve highlights both the main mass of scores at the baseline and the gradual thinning out for higher scores, confirming no abnormal spikes or bi-modality.]
