@@ -14,7 +14,7 @@ All artifacts and documentation required by the challenge are included.
 
 ## Repository Structure
 
-.
+
 ├── flatten_aave_json.py # (local) JSON flattening to tabular CSV
 
 ├── clean_and_engineer.py # (local) Data cleaning and feature engineering
@@ -27,12 +27,39 @@ All artifacts and documentation required by the challenge are included.
 
 ├── analysis.md # Post-scoring wallet analysis, plots, insights
 
-└── ...
+└── 
 
 
 ---
 
-## Pipeline and Method
+## Score Logic Explanation
+
+Each wallet receives a credit score from 0 to 1000, where a higher score reflects more reliable and responsible DeFi usage, while a lower score flags higher risk or bot-like/exploitative behavior.
+Features Used include:
+
+- Counts and log-USD amounts for deposits, borrows, repays, redeems, and liquidations.
+
+- Engineered risk ratios: liquidation ratio, utilization rate, and borrow–repay ratio.
+
+- Behavioral metrics: unique token count (diversity), and activity duration (first-to-last action).
+
+**How scores are assigned**:
+
+Inactive wallets (no borrow, repay, or liquidation activity) receive a fixed baseline score, as there is insufficient risk history to assign a higher score. Active wallets receive a score via a weighted formula:
+
+-Responsible behaviors (e.g., repayments, long activity history, interacting with multiple tokens) are strongly rewarded.
+
+- Risk behaviors (e.g., liquidations, high leverage/utilization, poor borrow–repay ratios) are sharply penalized.
+
+- All features are log-scaled and capped where required to prevent outlier distortion.
+
+**Why XGBoost Model Was Used**:
+
+XGBoost is robust to zero-inflated and skewed DeFi features and captures complex, non-linear risk signals. It is widely used in industry for credit scoring because it offers strong predictive performance, handles missing and extreme values well, and provides transparent feature importances for explainability. When compared to similar options (e.g., LightGBM), XGBoost demonstrated superior performance on RMSE and R² metrics during evaluation, making it the most reliable modeling choice in this project.
+
+---
+
+## Processing FLow
 
 **Step 1:**  
 `flatten_aave_json.py`  
@@ -72,6 +99,46 @@ _Cleans and standardizes the raw transaction data, handles missingness and anoma
 4. Upload `user_features.csv` to Colab.
 5. Open and run `model_training_and_analysis.ipynb` for data audit, heuristic scoring, ML model building, and prediction.  
    - The notebook will guide you through visualizations, result analysis, and export the final file with credit scores.
+
+---
+
+## Complete Project Architecture
+
+Aave Transaction JSON
+        │
+        ▼
+[Local Script] flatten_aave_json.py
+  – Flattens nested DeFi action data into tabular format
+        │
+        ▼
+[Local Script] clean_and_engineer.py
+  – Cleans, standardizes, and aggregates transaction records
+  – Engineered features for each user: actions, volumes, ratios, diversity, tenure
+        │
+        ▼
+[Colab Notebook] Data Audit & EDA
+  – Visual checks for missing data, outliers, feature redundancy
+  – Drops irrelevant or constant features
+        │
+        ▼
+[Colab Notebook] Heuristic Scoring & Segmentation
+  – Applies robust scoring logic (see above)
+  – Bands users ("Prime", "Subprime", etc.)
+        │
+        ▼
+[Colab Notebook] ML Model Training (XGBoost, LightGBM)
+  – Trains, validates, and compares model performance
+  – Selects best model (XGBoost)
+        │
+        ▼
+[Colab Notebook] Prediction & Final Scoring
+  – Adds ML-predicted credit score and interprets results
+        │
+        ▼
+[Output]
+  – user_features_with_xgboost_predicted_score.csv (all scores and features)
+  – Visualizations and detailed analysis for protocol, contest entry, or reporting
+
 
 ---
 
