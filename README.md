@@ -105,55 +105,41 @@ _Cleans and standardizes the raw transaction data, handles missingness and anoma
 ## Complete Project Architecture
 
 Aave Transaction JSON
-
         │
-        
         ▼
         
 [Local Script] flatten_aave_json.py
   – Flattens nested DeFi action data into tabular format
-  
         │
-        
         ▼
         
 [Local Script] clean_and_engineer.py
   – Cleans, standardizes, and aggregates transaction records
   – Engineered features for each user: actions, volumes, ratios, diversity, tenure
-  
         │
-  
         ▼
         
 [Colab Notebook] Data Audit & EDA
   – Visual checks for missing data, outliers, feature redundancy
-  – Drops irrelevant or constant features
-        
-        │
-        
+  – Drops irrelevant or constant features     
+        │     
         ▼
         
 [Colab Notebook] Heuristic Scoring & Segmentation
   – Applies robust scoring logic (see above)
   – Bands users ("Prime", "Subprime", etc.)
-        
         │
-        
         ▼
         
 [Colab Notebook] ML Model Training (XGBoost, LightGBM)
   – Trains, validates, and compares model performance
   – Selects best model (XGBoost)
-        
         │
-        
         ▼
         
 [Colab Notebook] Prediction & Final Scoring
   – Adds ML-predicted credit score and interprets results
-        
         │
-        
         ▼
         
 [Output]
